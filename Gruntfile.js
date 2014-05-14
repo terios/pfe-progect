@@ -9,7 +9,7 @@
 
 var path = require('path');
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
     // Load grunt tasks automatically
     require('load-grunt-tasks')(grunt);
@@ -26,8 +26,7 @@ module.exports = function (grunt) {
 
     try {
         yeomanConfig.app = require('./bower.json').appPath || yeomanConfig.app;
-    } catch (e) {
-    }
+    } catch (e) {}
     // Define the configuration for all the tasks
     grunt.initConfig({
 
@@ -68,9 +67,12 @@ module.exports = function (grunt) {
              livereload: '<%= connect.options.livereload %>'
              },
              files: [
-             '<%= yeoman.app %>/{,*//*}*.html',
-             '.tmp/styles/{,*//*}*.css',
-             '<%= yeoman.app %>/images/{,*//*}*.{png,jpg,jpeg,gif,webp,svg}'
+             '<%= yeoman.app %>/{,*/
+            /*}*.html',
+             '.tmp/styles/{,*/
+            /*}*.css',
+             '<%= yeoman.app %>/images/{,*/
+            /*}*.{png,jpg,jpeg,gif,webp,svg}'
              ]
              }*/
         },
@@ -134,16 +136,14 @@ module.exports = function (grunt) {
         // Empties folders to start fresh
         clean: {
             dist: {
-                files: [
-                    {
-                        dot: true,
-                        src: [
-                            '.tmp',
-                            '<%= yeoman.dist %>/*',
-                            '!<%= yeoman.dist %>/.git*'
-                        ]
-                    }
-                ]
+                files: [{
+                    dot: true,
+                    src: [
+                        '.tmp',
+                        '<%= yeoman.dist %>/*',
+                        '!<%= yeoman.dist %>/.git*'
+                    ]
+                }]
             },
             server: '.tmp'
         },
@@ -154,14 +154,12 @@ module.exports = function (grunt) {
                 browsers: ['last 1 version']
             },
             dist: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: '.tmp/styles/',
-                        src: '{,*/}*.css',
-                        dest: '.tmp/styles/'
-                    }
-                ]
+                files: [{
+                    expand: true,
+                    cwd: '.tmp/styles/',
+                    src: '{,*/}*.css',
+                    dest: '.tmp/styles/'
+                }]
             }
         },
 
@@ -257,27 +255,23 @@ module.exports = function (grunt) {
 
         imagemin: {
             dist: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= yeoman.app %>/images',
-                        src: '{,*/}*.{png,jpg,jpeg,gif}',
-                        dest: '<%= yeoman.dist %>/images'
-                    }
-                ]
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/images',
+                    src: '{,*/}*.{png,jpg,jpeg,gif}',
+                    dest: '<%= yeoman.dist %>/images'
+                }]
             }
         },
 
         svgmin: {
             dist: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= yeoman.app %>/images',
-                        src: '{,*/}*.svg',
-                        dest: '<%= yeoman.dist %>/images'
-                    }
-                ]
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/images',
+                    src: '{,*/}*.svg',
+                    dest: '<%= yeoman.dist %>/images'
+                }]
             }
         },
 
@@ -289,14 +283,12 @@ module.exports = function (grunt) {
                     removeCommentsFromCDATA: true,
                     removeOptionalTags: true
                 },
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= yeoman.dist %>',
-                        src: ['*.html', 'views/{,*/}*.html'],
-                        dest: '<%= yeoman.dist %>'
-                    }
-                ]
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.dist %>',
+                    src: ['*.html', 'views/{,*/}*.html'],
+                    dest: '<%= yeoman.dist %>'
+                }]
             }
         },
 
@@ -384,43 +376,39 @@ module.exports = function (grunt) {
             },
             test: {
                 src: 'env/config.test.json'
+            },
+            prod: {
+                src: 'env/config.prod.json'
+            },
+            default: {
+                src: 'env/config.json'
             }
         }
     });
 
 
-    grunt.registerTask('serve', function (target) {
+    grunt.registerTask('serve', function(target) {
         if (target === 'dist') {
             return grunt.task.run(['build', 'open', 'express:dist:keepalive']);
         }
 
-        var env = grunt.file.readJSON('./env/config.json').NODE_ENV;
-        if (env === 'dev') {
-            grunt.task.run([
-                'env:dev',
-                'setEnv',
-                'clean:server',
-                'bowerInstall',
-                'concurrent:server',
-                'autoprefixer',
-                'express:livereload',
-                'watch'
-            ])
-        } else {
-            grunt.task.run([
-                'clean:server',
-                'express:livereload',
-                'watch'
-            ])
-        }
+        grunt.task.run([
+            'env:default',
+            'clean:server',
+            'bowerInstall',
+            'concurrent:server',
+            'autoprefixer',
+            'express:livereload',
+            'watch'
+        ]);
     });
 
-    grunt.registerTask('server', function (target) {
+    grunt.registerTask('server', function(target) {
         grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
         grunt.task.run(['serve:' + target]);
     });
 
-    grunt.registerTask('setEnv', function () {
+    grunt.registerTask('setEnv', function() {
         grunt.config('NODE_ENV', process.env.NODE_ENV);
         grunt.config('URL_REQUEST', process.env.URL_REQUEST);
         console.log('ENV = ' + process.env.NODE_ENV);
@@ -429,7 +417,8 @@ module.exports = function (grunt) {
     grunt.registerTask('build-dev', [
         'env:dev',
         'setEnv',
-        'build']);
+        'build'
+    ]);
 
     grunt.registerTask('generate-test', [
         'env:test',
@@ -450,6 +439,22 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'env:dev',
         'setEnv',
+        'clean:dist',
+        'bowerInstall',
+        'useminPrepare',
+        'concurrent:dist',
+        'autoprefixer',
+        'concat',
+        'copy:dist',
+        'cssmin',
+        'uglify',
+        'rev',
+        'usemin',
+        'htmlmin'
+    ]);
+
+    grunt.registerTask('build-prod', [
+        'env:prod',
         'clean:dist',
         'bowerInstall',
         'useminPrepare',
