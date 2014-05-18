@@ -116,13 +116,10 @@ module.exports = function(grunt) {
         // Make sure code styles are up to par and there are no obvious mistakes
         jshint: {
             options: {
-                jshintrc: '.jshintrc',
                 reporter: require('jshint-stylish')
             },
             all: [
-                'Gruntfile.js',
-                '<%= yeoman.app %>/scripts/{,*/}*.js',
-                '<%= yeoman.api %>/**/{,*/}*.js',
+                '<%= yeoman.app %>/scripts/{*/}*.js',
                 '<%= yeoman.test %>spec/**/{,*/}*.js'
             ],
             test: {
@@ -298,15 +295,14 @@ module.exports = function(grunt) {
         ngmin: {
             controllers: {
                 expand: true,
-                cwd: 'app',
-                src: ['scripts/**/*.js'],
-                dest: 'generated/'
+                src: ['<%= yeoman.app %>/scripts/**/*.js'],
+                dest: '/generated'
             }
         },
         uglify: {
             build: {
                 src: '<%= yeoman.generated %>/scripts/**/*.js',
-                dest: '<%= yeoman.dist %>/app/scripts/front.js'
+                dest: '<%= yeoman.app %>/scripts/front.js'
             }
         },
         // Replace Google CDN references
@@ -440,6 +436,7 @@ module.exports = function(grunt) {
         'clean:dist',
         'bowerInstall',
         'useminPrepare',
+        'ngmin',
         'autoprefixer',
         'concat',
         'copy:dist',
