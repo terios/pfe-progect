@@ -54,10 +54,10 @@ module.exports = function(grunt) {
                 files: ['test/spec/{,*/}*.js'],
                 tasks: ['newer:jshint:test', 'karma']
             },
-            compass: {
-                files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-                tasks: ['compass:server', 'autoprefixer']
-            },
+            // compass: {
+            //     files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+            //     tasks: ['compass:server', 'autoprefixer']
+            // },
             gruntfile: {
                 files: ['Gruntfile.js']
             }
@@ -396,7 +396,6 @@ module.exports = function(grunt) {
             'env:default',
             'clean:server',
             'bowerInstall',
-            'concurrent:server',
             'autoprefixer',
             'express:livereload',
             'watch'
@@ -429,7 +428,6 @@ module.exports = function(grunt) {
         'env:test',
         'setEnv',
         'clean:server',
-        'concurrent:test',
         'autoprefixer',
         'express:test',
         'jshint:all',
@@ -442,7 +440,6 @@ module.exports = function(grunt) {
         'clean:dist',
         'bowerInstall',
         'useminPrepare',
-        'concurrent:dist',
         'autoprefixer',
         'concat',
         'copy:dist',
@@ -458,7 +455,6 @@ module.exports = function(grunt) {
         'clean:dist',
         'bowerInstall',
         'useminPrepare',
-        'concurrent:dist',
         'autoprefixer',
         'concat',
         'copy:dist',

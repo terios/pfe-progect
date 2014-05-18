@@ -3,10 +3,10 @@
  */
 
 var express = require('express'),
-    app = express(),
-    http = require('http'),
-    mongoose = require('mongoose'),
-    config = require('./env/config.json');
+	app = express(),
+	http = require('http'),
+	mongoose = require('mongoose'),
+	config = require('./env/config.json');
 
 //setting mongodb url and connecting
 var mongo_uri = config.MONGO_URI;
@@ -35,14 +35,16 @@ var io = require('socket.io').listen(httpServer);
 httpServer.listen(3000);
 
 //webSocket event configuration
-io.sockets.on('connection', function (socket) {
-    socket.emit('news', { hello: 'world',
-        onlineState: true });
-    socket.on('my other event', function (data) {
-        console.log(data);
-    });
+io.sockets.on('connection', function(socket) {
+	socket.emit('news', {
+		hello: 'world',
+		onlineState: true
+	});
+	socket.on('my other event', function(data) {
+		console.log(data);
+	});
 });
 
-console.log('Express http server started on port 3000   ');
+console.log('Express http server started on http://127.0.0.1:3000/  ');
 
 module.exports = app;
