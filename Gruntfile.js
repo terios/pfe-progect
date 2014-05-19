@@ -239,7 +239,7 @@ module.exports = function(grunt) {
             html: ['<%= yeoman.dist %>/{,*/}*.html'],
             css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
             options: {
-                assetsDirs: ['<%= yeoman.dist %>']
+                dirs: ['<%= yeoman.dist %>']
             }
         },
 
@@ -282,7 +282,7 @@ module.exports = function(grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: '<%= yeoman.dist %>',
+                    cwd: '<%= yeoman.app %>',
                     src: ['*.html', 'views/{,*/}*.html'],
                     dest: '<%= yeoman.dist %>'
                 }]
@@ -295,14 +295,15 @@ module.exports = function(grunt) {
         ngmin: {
             controllers: {
                 expand: true,
-                src: ['<%= yeoman.app %>/scripts/**/*.js'],
-                dest: '/generated'
+                cwd: './',
+                src: ['app/scripts/**/*.js'],
+                dest: '/generated/ngmin'
             }
         },
         uglify: {
             build: {
-                src: '<%= yeoman.generated %>/scripts/**/*.js',
-                dest: '<%= yeoman.app %>/scripts/front.js'
+                src: '/generated/ngmin/**/*.js',
+                dest: '<%= yeoman.dist %>/app/scripts/front.js'
             }
         },
         // Replace Google CDN references
@@ -318,18 +319,21 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     dot: true,
-                    cwd: '<%= yeoman.app %>',
+                    cwd: './',
                     dest: '<%= yeoman.dist %>',
                     src: [
                         'app/**/*.{html,css,png,jpeg,GIF,jpg,eot,svg,ttf,woff}',
                         'app/bower_components/**/*.js',
+                        'api/**/*',
+                        'models/**/*',
+                        'routes/**/*',
                         'app.js',
                         'Gruntfile.js',
                         'package.json'
                     ]
                 }, {
                     expand: true,
-                    cwd: '<%= yeoman.app %>',
+                    cwd: './',
                     dest: '<%= yeoman.dist %>',
                     src: ['env/config.<%= [NODE_ENV] %>.json'],
                     rename: function(dest, src) {
@@ -348,14 +352,7 @@ module.exports = function(grunt) {
 
         // Run some tasks in parallel to speed up the build process
         concurrent: {
-            server: [
-                'compass:server'
-            ],
-            test: [
-                'compass'
-            ],
             dist: [
-                'compass:dist',
                 'imagemin',
                 'svgmin'
             ]
@@ -434,17 +431,11 @@ module.exports = function(grunt) {
         'env:dev',
         'setEnv',
         'clean:dist',
-        'bowerInstall',
+        'copy:dist',
         'useminPrepare',
         'ngmin',
-        'autoprefixer',
-        'concat',
-        'copy:dist',
-        'cssmin',
         'uglify',
-        'rev',
-        'usemin',
-        'htmlmin'
+        'usemin'
     ]);
 
     grunt.registerTask('build-prod', [

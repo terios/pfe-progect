@@ -77,3 +77,9 @@ body {
     border-bottom: 0;
   }
 }
+
+#mainContainer {
+  padding: 0 0 0 0 ;
+  background-color: blue;
+  margin-top: 30px;
+}
