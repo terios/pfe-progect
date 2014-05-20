@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: MainCtrl', function () {
+describe('Controller: HeaderCtrl', function () {
 
   // load the controller's module
   beforeEach(module('pfeApp'));
@@ -11,7 +11,7 @@ describe('Controller: MainCtrl', function () {
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    MainCtrl = $controller('MainCtrl', {
+    MainCtrl = $controller('HeaderCtrl', {
       $scope: scope
     });
   }));
