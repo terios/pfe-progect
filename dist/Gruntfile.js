@@ -297,12 +297,12 @@ module.exports = function(grunt) {
                 expand: true,
                 cwd: './',
                 src: ['app/scripts/**/*.js'],
-                dest: '<%= yeoman.generated %>/ngmin'
+                dest: '/generated/ngmin'
             }
         },
         uglify: {
             build: {
-                src: '<%= yeoman.generated %>/ngmin/**/*.js',
+                src: '/generated/ngmin/**/*.js',
                 dest: '<%= yeoman.dist %>/app/scripts/front.js'
             }
         },
@@ -344,7 +344,7 @@ module.exports = function(grunt) {
                     cwd: '.tmp/images',
                     dest: '<%= yeoman.dist %>/images',
                     src: [
-                        '<%= yeoman.generated %>/*'
+                        'generated/*'
                     ]
                 }]
             }
