@@ -1,7 +1,7 @@
 // Karma configuration
 // http://karma-runner.github.io/0.10/config/configuration-file.html
 
-module.exports = function (config) {
+module.exports = function(config) {
     config.set({
         // base path, that will be used to resolve files and exclude
         basePath: '',
@@ -19,9 +19,24 @@ module.exports = function (config) {
             'test/spec/**/*.js'
         ],
 
+        preprocessors: {
+            'app/scripts/**/*.js': 'coverage',
+            'app/scripts/app.js': 'coverage',
+
+        },
         // list of files / patterns to exclude
         exclude: [],
 
+        reporters: ['coverage', 'dots', 'junit'],
+
+        coverageReporter: {
+            type: 'cobertura',
+            dir: 'generated/tests/coverage/',
+            file: 'coverage.xml'
+        },
+        junitReporter: {
+            outputFile: 'generated/tests/test-results.xml'
+        },
         // web server port
         port: 8080,
 
@@ -47,6 +62,6 @@ module.exports = function (config) {
 
         // Continuous Integration mode
         // if true, it capture browsers, run tests and exit
-        singleRun: false
+        singleRun: true
     });
 };
