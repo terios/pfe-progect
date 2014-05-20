@@ -339,13 +339,6 @@ module.exports = function(grunt) {
                     rename: function(dest, src) {
                         return dest + '/env/config.json';
                     }
-                }, {
-                    expand: true,
-                    cwd: '.tmp/images',
-                    dest: '<%= yeoman.dist %>/images',
-                    src: [
-                        '<%= yeoman.generated %>/*'
-                    ]
                 }]
             }
         },
