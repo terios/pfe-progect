@@ -329,7 +329,9 @@ module.exports = function(grunt) {
                         'routes/**/*',
                         'app.js',
                         'Gruntfile.js',
-                        'package.json'
+                        'package.json',
+                        'bower.json',
+                        '.bowerrc'
                     ]
                 }, {
                     expand: true,
