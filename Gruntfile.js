@@ -116,17 +116,12 @@ module.exports = function(grunt) {
         // Make sure code styles are up to par and there are no obvious mistakes
         jshint: {
             options: {
-                reporter: require('jshint-stylish')
+                jshintrc: '.jshintrc',
+                reporter: 'checkstyle',
+                reporterOutput: 'generated/jshint/resultJSHint.xml'
             },
-            all: [
-                '<%= yeoman.app %>/scripts/{*/}*.js',
-                '<%= yeoman.test %>spec/**/{,*/}*.js'
-            ],
-            test: {
-                options: {
-                    jshintrc: 'test/.jshintrc'
-                },
-                src: ['test/spec/{,*/}*.js']
+            all: {
+                src: ['Gruntfile.js', 'app/scripts/**/*.js', 'api/**/*.js', 'test/spec/**/*.js']
             }
         },
 
