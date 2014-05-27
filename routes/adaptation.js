@@ -6,12 +6,17 @@
 
 module.exports = function(app) {
 
-    var userDAO = require('../api/dao/userDAO');
+	var multipart = require('connect-multiparty');
+	var multipartMiddleware = multipart();
 
-    app.post('/test', function(req, res) {
-        console.log('ca marche !!!')
-        res.send(200, req.body);
-    });
+	var userDAO = require('../api/dao/userDAO');
+	var productDAO = require('../api/dao/productDAO');
 
+	app.post('/test', function(req, res) {
+		console.log('ca marche !!!')
+		res.send(200, req.body);
+	});
+
+	app.post('/ajouterProduit', multipartMiddleware, productDAO.addItem);
 
 };
