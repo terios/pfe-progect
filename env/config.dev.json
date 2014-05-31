@@ -2,5 +2,6 @@
     "MONGO_URI": "localhost",
     "MONGO_DB": "mydb",
     "NODE_ENV": "dev",
-    "URL_REQUEST":"http://localhost:3000"
+    "URL_REQUEST":"http://localhost:3000",
+    "FILE_PATH":"files"
 }

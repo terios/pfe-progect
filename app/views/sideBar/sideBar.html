@@ -1,0 +1,95 @@
+    <!-- BEGIN SIDEBAR -->
+        <div class="page-sidebar navbar-collapse collapse" data-ng-init='init()'>
+            <!-- add "navbar-no-scroll" class to disable the scrolling of the sidebar menu -->
+            <!-- BEGIN SIDEBAR MENU -->
+            <ul class="page-sidebar-menu" data-auto-scroll="true" data-slide-speed="200">
+                <li class="sidebar-toggler-wrapper">
+                    <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+                    <div class="sidebar-toggler hidden-phone" ng-click="toggleSideBar()">
+                    </div>
+                    <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+                </li>
+                <li class="{{active.home}}">
+                    <a href="#/home">
+                    <i class="fa fa-home"></i>
+                    <span class="title">
+                    Tableau de bord
+                    </span>
+                    <span class="selected">
+                    </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="" ng-click="openCollapsed()">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span class="title">
+                    Magasin
+                    </span>
+                    <span class="arrow ">
+                    </span>
+                    </a>
+                    <ul class="sub-menu"  ng-show="produitSubMenu">
+                        <li class=' animated fadeInLeft'>
+                            <a href="ecommerce_index.html">
+                            <i class="fa fa-bullhorn"></i>
+                            Tableau de bord
+                            </a>
+                        </li>
+                        <li class=' animated fadeInLeft'>
+                            <a href="ecommerce_orders.html">
+                            <i class="fa fa-shopping-cart"></i>
+                            Commande
+                            </a>
+                        </li>
+                        <li class=' animated fadeInLeft'>
+                            <a href="ecommerce_products.html">
+                            <i class="fa fa-truck"></i>
+                            Livraison
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                 <li class='{{active.produit}}'>
+                    <a href="#/produit">
+                    <i class="fa fa-archive"></i>
+                    <span class="title">
+                    Produit
+                    </span>
+                    <span class="selected">
+                    </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                    <i class="fa fa-envelope"></i>
+                    <span class="title">
+                    Message
+                    </span>
+                    <span class="selected">
+                    </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                    <i class="fa fa-signal"></i>
+                    <span class="title">
+                    Statistic
+                    </span>
+                    <span class="selected">
+                    </span>
+                    </a>
+                </li>
+                 <li>
+                    <a href="">
+                    <i class="fa fa-user"></i>
+                    <span class="title">
+                    Utilisateurs
+                    </span>
+                    <span class="selected">
+                    </span>
+                    </a>
+                </li>
+            </ul>
+            <!-- END SIDEBAR MENU -->
+        </div>
+    <!-- END SIDEBAR -->

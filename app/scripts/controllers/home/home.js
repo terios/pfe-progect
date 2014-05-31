@@ -4,7 +4,7 @@ angular.module('pfeApp').controller('HomeCtrl',
     $scope.state = false;
     $scope.init = function () {
       $rootScope.active = {
-      home:'active',
+      home:'start active',
       statistic:'',
       produit:'',
       message:'',

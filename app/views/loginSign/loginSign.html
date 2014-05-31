@@ -1,0 +1,167 @@
+<div class="login" data-ng-init='init()'>
+	<div class="logo">
+		<a href="index.html">
+		<img src="styles/img/logo-big.png" alt=""/>
+		</a>
+	</div>
+	<!-- END LOGO -->
+	<!-- BEGIN LOGIN -->
+	<div class="content">
+		<!-- BEGIN LOGIN FORM -->
+		<div ng-show='loginForm' class='animated fadeInDown'>
+			<form class="login-form">
+				<h3 class="form-title">Accès à votre compte</h3>
+				<span class='help-block redSpan' ng-show='errloginAction'>Login ou le mot de passe ne correspondent pas</span>
+
+				<div class="form-group">
+					<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+					<label class="control-label visible-ie8 visible-ie9">Identifiant</label>
+					<div class="input-icon">
+						<i class="fa fa-user"></i>
+						<input ng-model='loginLogin' class="form-control placeholder-no-fix" type="text" placeholder="Identifiant" name="username"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label visible-ie8 visible-ie9">Mot de Passe</label>
+					<div class="input-icon">
+						<i class="fa fa-lock"></i>
+						<input ng-model='passwordLogin' class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Mot de Passe" name="password"/>
+					</div>
+				</div>
+				<div class="form-actions">
+					<button type="submit" class="btn green btn-block" ng-click='authenticate()'>
+					Connexion <i class="m-icon-swapright m-icon-white"></i>
+					</button>
+				</div>
+				<div class="login-options">
+					<h4>Ou utiliser</h4>
+					<ul class="social-icons">
+						<li>
+							<a class="facebook" data-original-title="facebook" href="#">
+							</a>
+						</li>
+						<li>
+							<a class="twitter" data-original-title="Twitter" href="#">
+							</a>
+						</li>
+						<li>
+							<a class="googleplus" data-original-title="Goole Plus" href="#">
+							</a>
+						</li>
+						<li>
+							<a class="linkedin" data-original-title="Linkedin" href="#">
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="forget-password">
+					<h4>Mot de passe oublié ?</h4>
+					<p>
+					Cliquez
+					<a href="" ng-click='switch()' id="forget-password">
+					ici
+					</a>
+					pour réinitialiser votre mot de passe.
+					</p>
+				</div>
+				<div class="create-account">
+					<p>
+					Vous n'avez pas de compte ?&nbsp;
+					<a href="" id="register-btn" ng-click='createAccount()'>
+					Cree un compte .
+					</a>
+					</p>
+				</div>
+			</form>
+		</div>
+		<!-- END LOGIN FORM -->
+		<!-- BEGIN FORGOT PASSWORD FORM -->
+		<div ng-show='recoverPasswordForm' class='animated fadeInDown'>
+			<form class="forget-form">
+				<h3>Mot de passe oublié ?</h3>
+				<p>
+				Entrez votre adresse e-mail ci-dessous pour réinitialiser votre mot de passe.
+				</p>
+				<div class="form-group">
+					<div class="input-icon">
+						<i class="fa fa-envelope"></i>
+						<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email"/>
+					</div>
+				</div>
+				<div class="form-actions">
+					<button type="button" id="back-btn" class="btn" ng-click='switch()'>
+					<i class="m-icon-swapleft"></i> Retour </button>
+					<button type="submit" class="btn green pull-right">
+					Envoyer <i class="m-icon-swapright m-icon-white"></i>
+					</button>
+				</div>
+			</form>
+		</div>
+		<!-- END FORGOT PASSWORD FORM -->
+		<div ng-show='createAccountForm' class='animated fadeInDown'>
+			<form class="register-form" ng-show='createAccountForm'>
+				<h3>Inscription</h3>
+				<p>
+				Entrez vos coordonnées ci-dessous:
+				</p>
+				<div class="form-group">
+					<label class="control-label visible-ie8 visible-ie9">Nom Complet</label>
+					<div class="input-icon">
+						<i class="fa fa-font"></i>
+						<input class="form-control placeholder-no-fix" type="text" placeholder="Nom Comple" name="fullname" ng-model='signName'/>
+					</div>
+					<span class='help-block redSpan' ng-show='errName'>Le nom est vide ou contient des caractères spéciaux</span>
+
+				</div>
+				<div class="form-group">
+					<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+					<label class="control-label visible-ie8 visible-ie9">Email</label>
+					<div class="input-icon">
+						<i class="fa fa-envelope"></i>
+						<input class="form-control placeholder-no-fix" type="text" placeholder="Email" name="email" ng-model='signEmail'/>
+					</div>
+					<span class='help-block redSpan' ng-show='errEmail'>L'email est vide ou n'est pas valide</span>
+
+				</div>
+				<p>
+				Entrez les détails de votre compte ci-dessous:
+				</p>
+				<div class="form-group">
+					<label class="control-label visible-ie8 visible-ie9">Identifiant</label>
+					<div class="input-icon">
+						<i class="fa fa-user"></i>
+						<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Identifiant" name="username" ng-model='signLogin'/>
+					</div>
+					<span class='help-block redSpan' ng-show='errLogin'>Le login est obligatoire (6,32) caractères</span>
+
+				</div>
+				<div class="form-group">
+					<label class="control-label visible-ie8 visible-ie9">Mot de passe</label>
+					<div class="input-icon">
+						<i class="fa fa-lock"></i>
+						<input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="Mot de passe" name="password" ng-model='signPassword'/>
+					</div>
+					<span class='help-block redSpan' ng-show='errPassword'>Le mot de pass est obligatoire (8,32) caractères</span>
+
+				</div>
+				<div class="form-group">
+					<label class="control-label visible-ie8 visible-ie9">Confirmer le mot de passe</label>
+					<div class="controls">
+						<div class="input-icon">
+							<i class="fa fa-check"></i>
+							<input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Confirmation du mot de passe" name="rpassword" ng-model='signRPassword'/>
+						</div>
+						<span class='help-block redSpan' ng-show='errConfirmation'>La confirmation doit correspondre au mot de passe entré</span>
+					</div>
+				</div>
+				<div class="form-actions">
+					<button id="register-back-btn" type="button" class="btn" ng-click='switchAuth()'>
+					<i class="m-icon-swapleft"></i> Retour </button>
+					<button type="submit" id="register-submit-btn" class="btn green pull-right" ng-click='creatAccount()'>
+					Inscrire <i class="m-icon-swapright m-icon-white"></i>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

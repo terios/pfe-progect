@@ -13,34 +13,25 @@ angular.module('pfeApp').controller('ProduitCtrl',
       name: 'ComposantInterne'
     }];
 
-    $scope.descriptionProduit = '';
-    $scope.prixProduit = 0;
-    $scope.nombreProduit = 0;
     $scope.uploader = {};
+    $scope.listProduit = [];
 
     $scope.init = function() {
-      console.log(configuration.URL_REQUEST);
       $rootScope.active = {
         home: '',
         statistic: '',
-        produit: 'active',
+        produit: 'start active',
         message: '',
         reclamation: '',
         tableBord: ''
       };
-      console.log('init du Produit');
-      //   var socket = io.connect('http://localhost:3000');
-      //   socket.on('news', function(data) {
-      //     if (data.onlineState) {
-      //       $scope.state = data.onlineState;
-      //     } else {
-      //       $scope.state = data.onlineState;
-      //     }
-      //     $scope.$digest();
-      //     socket.emit('my other event', {
-      //       my: 'data'
-      //     });
-      //   });
+      $http.post(configuration.URL_REQUEST + '/getAllProducts')
+        .success(function(data) {
+          console.log(data);
+          $scope.listProduit = data;
+        }).error(function() {
+          console.log('une erreur');
+        });
     };
 
     $scope.$on('flow::fileAdded', function(event, $flow, flowFile) {
@@ -49,7 +40,25 @@ angular.module('pfeApp').controller('ProduitCtrl',
       console.log(flowFile);
       // event.preventDefault(); //prevent file from uploading
     });
-
+    $scope.defineAction = function(param, id) {
+      if (param === 1) {
+        console.log('ajouter');
+        $scope.disableElement = false;
+        $scope.actionCall = 'ajouter';
+      } else if (param === 2) {
+        console.log('modifier');
+        $scope.actionCall = 'modifier';
+        $scope.detail(id);
+      }
+    }
+    $scope.send = function() {
+      if ($scope.actionCall === 'ajouter') {
+        console.log('action ajout');
+        $scope.ajouterProduit();
+      } else if ($scope.actionCall === 'modifier') {
+        console.log('action modification');
+      }
+    }
     $scope.ajouterProduit = function() {
       $scope.inisilizeErreur();
       console.log($scope.uploader.flow.files);
@@ -103,20 +112,45 @@ angular.module('pfeApp').controller('ProduitCtrl',
 
     $scope.uploadComplete = function(evt) {
       console.log('upload terminer');
+      $('#addProductModal').modal('hide');
       // socket.emit('allProduct');
     };
 
     $scope.uploadFailed = function(evt) {
       console.log('erreur lors de l\'envoie des données');
     };
+    $scope.detail = function(id) {
+      $scope.disableElement = true;
+      console.log('open detaille');
+      console.log(id);
+      if (id) {
+        $http.post(configuration.URL_REQUEST + '/getProductsById', {
+          idProduct: id
+        }).success(function(data) {
+          console.log('bonne reception');
+          console.log(data);
 
+          $scope.nomProduit = data.name;
+          $scope.categorieSelected = data.categorie;
+          $scope.descriptionProduit = data.description;
+          $scope.prixProduit = data.price;
+          $scope.nombreProduit = data.amount;
+
+        }).error(function() {
+          console.log('une erreur Mister');
+        })
+      } else {
+        console.log('id introuvable');
+      }
+
+    }
     // socket.on('broadcast', function(data) {
     //   $scope.name = data.name;
     //   console.log(data);
     // });
-
-    socket.on('second', function(data) {
-      $scope.name = data.name;
+    socket.on('newProductNotification', function(data) {
+      console.log(data.lastItem);
+      $scope.listProduit.push(data.lastItem);
       console.log(data);
     });
 

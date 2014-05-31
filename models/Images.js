@@ -10,9 +10,9 @@ var imageSchema = mongoose.Schema({
 
 	name: String,
 	data: String,
-	productId: {
-		type: ObjectId,
-		ref: 'productSchema'
+	created: {
+		type: Date,
+		default: Date.now
 	}
 });
 

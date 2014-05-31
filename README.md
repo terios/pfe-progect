@@ -1,14 +1,14 @@
 
-POGECT
+PROGECT
 =========
 
-this project is based on the architecture with some improvement MEAN I add the following problem that I encountered during the developement of a number of projects.
+This project is based on MEAN architecture .
 
 
 ![Alt text](https://assets.digitalocean.com/blog/MEAN_Blog/mean_small_vertical.png "Optional title")
 
 
-other technologies
+Other technologies
 -----------
 
 the project was based on different other tools to obtain a solid product::
