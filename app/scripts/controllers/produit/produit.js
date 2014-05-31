@@ -113,6 +113,7 @@ angular.module('pfeApp').controller('ProduitCtrl',
     $scope.uploadComplete = function(evt) {
       console.log('upload terminer');
       $('#addProductModal').modal('hide');
+      $scope.clearInputs();
       // socket.emit('allProduct');
     };
 
@@ -143,6 +144,15 @@ angular.module('pfeApp').controller('ProduitCtrl',
         console.log('id introuvable');
       }
 
+    }
+
+    $scope.clearInputs = function() {
+      $scope.uploader.flow.files = [];
+      $scope.nomProduit = '';
+      $scope.categorieSelected = '';
+      $scope.descriptionProduit = '';
+      $scope.prixProduit = '';
+      $scope.nombreProduit = '';
     }
     // socket.on('broadcast', function(data) {
     //   $scope.name = data.name;

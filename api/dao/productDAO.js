@@ -29,32 +29,40 @@ exports.addItem = function(req, res) {
 		// for (var i = 0; i < req.files.uploadedFile.length; i++) {
 		// 	filesToUpload.push(req.files.uploadedFile[i]);
 		// }
-		console.log(req.files.uploadedFile);
-
+		// console.log(req.files.uploadedFile);
+		console.log(process.env)
 		if (req.files.uploadedFile instanceof Array) {
 			for (var i = 0; i < req.files.uploadedFile.length; i++) {
 				fileReaded = fs.readFileSync(req.files.uploadedFile[i].path);
-				fs.writeFile(process.env.FILE_PATH+'/'+encodeURIComponent(), "Hey there!", function(err) {
+				// binaryData = new Buffer(fileReaded).toString('binary');
+				console.log(process.env.FILE_PATH + '/' + encodeURIComponent(req.files.uploadedFile[i].name) + '.jpg');
+				fs.writeFile(process.env.FILE_PATH + '/' + encodeURIComponent(req.files.uploadedFile[i].name) + '.jpg', fileReaded, function(err) {
 					if (err) {
 						console.log(err);
 					} else {
 						console.log("The file was saved!");
 					}
 				});
-
-
-				bufferedFile = new Buffer(fileReaded).toString('base64');
 				arrayBase64.push({
 					name: req.files.uploadedFile[i].name,
-					data: bufferedFile
+					data: process.env.FILE_PATH + '/' + encodeURIComponent(req.files.uploadedFile[i].name)
 				});
+				console.log('fichier sauvgarder')
 			}
 		} else {
+			console.log(process.env.FILE_PATH + '/' + encodeURIComponent(req.files.uploadedFile.name));
 			fileReaded = fs.readFileSync(req.files.uploadedFile.path);
-			bufferedFile = new Buffer(fileReaded).toString('base64');
+			// bufferedFile = new Buffer(fileReaded).toString('base64');
+			fs.writeFile(process.env.FILE_PATH + '/' + encodeURIComponent(req.files.uploadedFile.name), fileReaded, function(err) {
+				if (err) {
+					console.log(err);
+				} else {
+					console.log("The file was saved!");
+				}
+			});
 			arrayBase64.push({
 				name: req.files.uploadedFile.name,
-				data: bufferedFile
+				data: process.env.FILE_PATH + '/' + encodeURIComponent(req.files.uploadedFile.name)
 			});
 		}
 
@@ -105,7 +113,7 @@ exports.addItem = function(req, res) {
 
 
 exports.getAllProducts = function(req, res) {
-
+	console.log(process.env);
 	Product.find({}, function(err, products) {
 		if (err) {
 			return res.jsonp(500, {

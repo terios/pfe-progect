@@ -1,6 +1,7 @@
 {
-    "NODE_ENV":"test",
-    "MONGO_URI":"localhost",
-    "mongo_DB":"mydb-test",
-    "URL_REQUEST":"http://localhost:3000"
+	"NODE_ENV": "test",
+	"MONGO_URI": "localhost",
+	"mongo_DB": "mydb-test",
+	"URL_REQUEST": "http://localhost:3000",
+	"FILE_PATH": "files"
 }
