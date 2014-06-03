@@ -61,8 +61,10 @@ angular.module('pfeApp').controller('LoginSignCtrl',
 					})
 					.error(function(data) {
 						console.log(data);
+						$scope.errloginAction = true;
 					});
 			} else {
+				console.log('err');
 				$scope.errloginAction = true;
 			}
 		};

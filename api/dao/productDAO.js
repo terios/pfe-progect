@@ -17,7 +17,7 @@ exports.addItem = function(req, res) {
 	var arrayBase64 = [];
 	var imgIdArray = [];
 	var counter = 0;
-
+	console.log(req.files);
 	if (!req.files.uploadedFile || req.files.uploadedFile.length < 1) {
 		console.log('aucun fichier uploader vide');
 		return res.jsonp(500, {
@@ -26,33 +26,21 @@ exports.addItem = function(req, res) {
 		});
 	} else {
 		console.log('des fichier on ete inclus');
-		// for (var i = 0; i < req.files.uploadedFile.length; i++) {
-		// 	filesToUpload.push(req.files.uploadedFile[i]);
-		// }
-		// console.log(req.files.uploadedFile);
-		console.log(process.env)
 		if (req.files.uploadedFile instanceof Array) {
 			for (var i = 0; i < req.files.uploadedFile.length; i++) {
 				fileReaded = fs.readFileSync(req.files.uploadedFile[i].path);
-				// binaryData = new Buffer(fileReaded).toString('binary');
-				console.log(process.env.FILE_PATH + '/' + encodeURIComponent(req.files.uploadedFile[i].name) + '.jpg');
-				fs.writeFile(process.env.FILE_PATH + '/' + encodeURIComponent(req.files.uploadedFile[i].name) + '.jpg', fileReaded, function(err) {
-					if (err) {
-						console.log(err);
-					} else {
-						console.log("The file was saved!");
-					}
-				});
+				console.log(process.env.FILE_PATH + '/' + encodeURIComponent(req.files.uploadedFile[i].name));
 				arrayBase64.push({
 					name: req.files.uploadedFile[i].name,
 					data: process.env.FILE_PATH + '/' + encodeURIComponent(req.files.uploadedFile[i].name)
 				});
-				console.log('fichier sauvgarder')
+				fs.writeFileSync(process.env.FILE_PATH + '/' + encodeURIComponent(req.files.uploadedFile[i].name), fileReaded);
+				console.log("The file created!");
+				console.log('file saved')
 			}
 		} else {
 			console.log(process.env.FILE_PATH + '/' + encodeURIComponent(req.files.uploadedFile.name));
 			fileReaded = fs.readFileSync(req.files.uploadedFile.path);
-			// bufferedFile = new Buffer(fileReaded).toString('base64');
 			fs.writeFile(process.env.FILE_PATH + '/' + encodeURIComponent(req.files.uploadedFile.name), fileReaded, function(err) {
 				if (err) {
 					console.log(err);
@@ -66,20 +54,32 @@ exports.addItem = function(req, res) {
 			});
 		}
 
-
+		console.log(arrayBase64);
+		console.log(arrayBase64.length);
+		var images = [];
 		for (var i = 0; i < arrayBase64.length; i++) {
 			console.log('inside for of images');
-			var images = new Images();
-			images.name = arrayBase64[i].name;
-			images.data = arrayBase64[i].data;
-			images.save(function(err) {
+			images[i] = new Images();
+			images[i].name = arrayBase64[i].name;
+			images[i].data = arrayBase64[i].data;
+			console.log(images[i]);
+			images[i].save(function(err) {
 				if (err) {
 					console.log(err);
 					throw err;
 				} else {
-					imgIdArray.push(images._id);
+					// console.log(images._id);
+					// console.log(counter);
+					// imgIdArray.push(images[i]._id);
+					// console.log(images.getAllImagesId());
 					counter++;
 					if (counter === arrayBase64.length) {
+						for (var i = 0; i < images.length; i++) {
+							imgIdArray.push(images[i]._id);
+						}
+						// console.log(images);
+						// console.log('================');
+						// console.log(imgIdArray);
 						var newProduct = new Product();
 						newProduct.name = productData.name;
 						newProduct.categorie = productData.categorie;
@@ -113,7 +113,15 @@ exports.addItem = function(req, res) {
 
 
 exports.getAllProducts = function(req, res) {
-	console.log(process.env);
+
+	Images.find({}, '_id', function(err, images) {
+		if (err) {
+			console.log('erreur');
+		} else {
+			console.log(images);
+		}
+	});
+
 	Product.find({}, function(err, products) {
 		if (err) {
 			return res.jsonp(500, {
@@ -126,6 +134,7 @@ exports.getAllProducts = function(req, res) {
 	});
 };
 
+
 exports.findById = function(req, res) {
 	var id = req.body.idProduct;
 	Product
@@ -134,7 +143,7 @@ exports.findById = function(req, res) {
 		.exec(function(err, produit) {
 			if (err) {
 				return res.jsonp(400, {
-					'produit': 'une erreu innatendu '
+					'produit': 'une erreur innatendu '
 				});
 			} else {
 				return res.jsonp(200, produit);

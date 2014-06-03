@@ -49,6 +49,9 @@
                 <th>
                   Revenue
                 </th>
+                <th>
+                  Detail
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -71,6 +74,12 @@
                 <td class="center">
                   {{produit.gain}}
                 </td>
+                <td class="center">
+                  <a href="" class='btn default' ng-click='detail(produit._id)'>
+                  Plus
+                  <i class='fa fa-plus'></i>
+                  </a>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -88,8 +97,8 @@
             <i class="fa fa-signal"></i>D3 diag
           </div>
         </div>
-        <div class="portlet-body">
-          
+        <div class="portlet-body" id='barchartTest'> 
+
         </div>
       </div>
       <!-- END EXAMPLE TABLE PORTLET-->
@@ -181,42 +190,177 @@
                         <p class="help-block">Ou glissez l'image(s) sur la zone grise.</p>
                       </div>
                     </div>
-                    </di>
-                    <br/>
-                    <div>
-                      <div ng-repeat="file in $flow.files" class="gallery-box">
-                        <span class="title">{{file.name}}</span>
-                        <div class="thumbnail" ng-show="$flow.files.length">
-                          <img flow-img="file" />
-                        </div>
-                        <div class="progress progress-striped" ng-class="{active: file.isUploading()}">
-                          <div class="progress-bar" role="progressbar"
-                            aria-valuenow="{{file.progress() * 100}}"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                            ng-style="{width: (file.progress() * 100) + '%'}">
-                            <span class="sr-only">{{file.progress()}}% Telecharger</span>
-                          </div>
-                        </div>
-                        <div class="btn-group">
-                          <a class="btn btn-xs btn-danger" ng-click="file.cancel()">
-                          Enlever
-                          </a>
+                  </div>
+                  <br/>
+                  <div>
+                    <div ng-repeat="file in $flow.files" class="gallery-box">
+                      <span class="title">{{file.name}}</span>
+                      <div class="thumbnail" ng-show="$flow.files.length">
+                        <img flow-img="file" />
+                      </div>
+                      <div class="progress progress-striped" ng-class="{active: file.isUploading()}">
+                        <div class="progress-bar" role="progressbar"
+                          aria-valuenow="{{file.progress() * 100}}"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                          ng-style="{width: (file.progress() * 100) + '%'}">
+                          <span class="sr-only">{{file.progress()}}% Telecharger</span>
                         </div>
                       </div>
-                      <div class="clear"></div>
+                      <div class="btn-group">
+                        <a class="btn btn-xs btn-danger" ng-click="file.cancel()">
+                        Enlever
+                        </a>
+                      </div>
                     </div>
+                    <div class="clear"></div>
                   </div>
                 </div>
               </div>
             </div>
-          </form>
-        </div>
-        <div class="modal-footer" style='overflow: hidden;'>
-          
-        </div>
+          </div>
+        </form>
       </div>
-      <!-- /.modal-content -->
+      <div class="modal-footer" style='overflow: hidden;'>
+        
+      </div>
     </div>
-    <!-- /.modal-dialog -->
+    <!-- /.modal-content -->
   </div>
+  <!-- /.modal-dialog -->
+</div>
+<div class="modal fade bs-modal-lg" id="modifierProductModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title">Modal Title</h4>
+      </div>
+      <div class="modal-body" style='min-height: 400px;'>
+        <form class="form-horizontal" role="form">
+          <div class='row'>
+            <div class='col-lg-10 col-md-10 col-sm-10'>
+              <div class="form-group">
+                <label for="inputEmail3" class="col-sm-4 control-label">Nom Produit :</label>
+                <div class="col-sm-8">
+                  <input ng-model='nomProduit' type="text" class="form-control" id="inputEmail3">
+                  <p ng-show='(erreurNom && erreurNom.length > 0)' class="help-block animated fadeInDown">{{erreurNom}}</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword3" class="col-sm-4 control-label">Categorie du Produit :</label>
+                <div class="col-sm-8">
+                  <select class="form-control" ng-options="categorie.name for categorie in ListCategorieProduit" ng-model="categorieSelected">
+                    <option style="display:none" value="">Selectionner une categorie ...</option>
+                  </select>
+                  <p ng-show='(erreurCategorie && erreurCategorie.length > 0)' class="help-block animated fadeInDown">{{erreurCategorie}}</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword3" class="col-sm-4 control-label">Description détaillé :</label>
+                <div class="col-sm-8">
+                  <textarea ng-model="descriptionProduit" class="form-control" rows="3"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword3" class="col-sm-4 control-label">Prix :</label>
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <input ng-model='prixProduit' type="number" min="0" class="form-control" placeholder="Prix unitaire">
+                    <span class="input-group-addon">DH</span>
+                  </div>
+                  <p ng-show='(erreurPrix && erreurPrix.length > 0)' class="help-block animated fadeInDown">{{erreurPrix}}</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword3" class="col-sm-4 control-label">Quantité du produit :</label>
+                <div class="col-sm-8">
+                  <input ng-model='nombreProduit' type="number" min="0" class="form-control" placeholder="Quantite du produit">
+                  <p ng-show='(erreurQuantite && erreurQuantite.length > 0)' class="help-block animated fadeInDown">{{erreurQuantite}}</p>
+                </div>
+              </div>
+              <div class='form-group pull-right'>
+                <button type="button" class="btn default" data-dismiss="modal">Fermé</button>
+                <button type="button" class="btn blue" ng-click='ajouterProduit()'>Enregitrer</button>
+              </div>
+            </div>
+            <div class='col-lg-12 col-md-12 col-sm-12'>
+              <div class="container mt40">
+                <section class="row">
+                  <article ng-repeat='pic in pics' class="col-xs-12 col-sm-6 col-md-3">
+                  <div class="panel panel-default">
+                    <div class="panel-body">
+                      <a href="{{pic.data}}" title="Nature Portfolio" class="zoom" data-title="{{pic.name}}" data-footer="{{pic.name}}" data-type="image" data-toggle="lightbox">
+                      <img src="{{pic.data}}" alt="Nature Portfolio" />
+                      <span class="overlay"><i class="fa-expand"></i></span>
+                      </a>
+                    </div>
+                    <div class="panel-footer">
+                      <h4>{{pic.name}}</h4>
+                      <a class="pull-right btn btn-xs btn-danger">
+                      <i class="fa fa-trash-o"> Suprimmé</i>
+                      </a>
+                    </div>
+                  </div>
+                  </article>
+                </section>
+              </div>
+              <!-- <img class='img-responsive img-thumbnail col-lg-4 col-md-3 col-sm-3' src="http://placehold.it/250x300"> -->
+              <!--   <div flow-init flow-name="uploader.flow"
+                flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]" class='animated fadeInDown' ng-show='showUploadImage'>
+                <div class="drop well btn-group" flow-drop ng-class="dropClass">
+                  <div class="row">
+                    <div class='col-lg-12 col-md-12 col-sm-12'>
+                      <button class="btn btn-sm btn-success" flow-btn>Uploader une image(s)</button>
+                    </div>
+                    <button class="btn btn-sm btn-success" flow-btn flow-directory ng-show="$flow.supportDirectory">un dossier d'image</button>
+                    <div class='col-lg-12 col-md-12 col-sm-12'>
+                      <p class="help-block">Ou glissez l'image(s) sur la zone grise.</p>
+                    </div>
+                  </div>
+                </div>
+                <br/>
+                <div>
+                  <div ng-repeat="file in $flow.files" class="gallery-box">
+                    <span class="title">{{file.name}}</span>
+                    <div class="thumbnail" ng-show="$flow.files.length">
+                      <img flow-img="file" />
+                    </div>
+                    <div class="progress progress-striped" ng-class="{active: file.isUploading()}">
+                      <div class="progress-bar" role="progressbar"
+                        aria-valuenow="{{file.progress() * 100}}"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        ng-style="{width: (file.progress() * 100) + '%'}">
+                        <span class="sr-only">{{file.progress()}}% Telecharger</span>
+                      </div>
+                    </div>
+                    <div class="btn-group">
+                      <a class="btn btn-xs btn-danger" ng-click="file.cancel()">
+                      Enlever
+                      </a>
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer" style='overflow: hidden;display:none'>
+        
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+event.preventDefault();
+$(this).ekkoLightbox();
+});
+});
+</script>
